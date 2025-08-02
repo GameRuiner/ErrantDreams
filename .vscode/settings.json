@@ -1,6 +1,5 @@
 {
-    "editor.fontSize": 23,
-    "terminal.integrated.fontSize": 23,
+    "terminal.integrated.fontSize": 12,
     "files.exclude": {
         "**/.git": false,
         "**/.svn": false,

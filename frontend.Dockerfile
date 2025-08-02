@@ -1,7 +1,5 @@
 FROM node:lts AS build
 
-LABEL maintainer="Arvind .A"
-LABEL email="pingarvindforquestions@gmail.com"
 
 WORKDIR /ui
 

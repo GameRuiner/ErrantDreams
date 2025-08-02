@@ -107,3 +107,4 @@ dmypy.json
 cython_debug/
 staticfiles_build/
 include/
+.env

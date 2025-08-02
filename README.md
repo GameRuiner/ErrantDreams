@@ -1,4 +1,4 @@
-# Django-React Starter Template
+# Errant Dreams
 
 ## Stack
 
@@ -22,28 +22,20 @@ $PROJECT_ROOT
 ```
 ---
 
-### Get the Code
+### Run the Code
 
 #### For Backend
 
-- Clone Repo
-
-```bash
-mkdir django-react
-cd django-react
-git clone https://github.com/Arvind-4/django-react.git .
-```
 - Create Virtual Environment for Python
 
 ```bash
-python3.10 -m pip install virtualenv
-python3.10 -m virtualenv .
+python3 -m venv venv
 ```
 
 - Activate Virtual Environment
 
 ```bash
-source bin/activate
+source venv/bin/activate
 ```
 
 - Install Dependencies
@@ -51,13 +43,6 @@ source bin/activate
 ```bash
 cd src
 pip install -r requirements.txt
-```
-
-- Install Dependencies (For Poetry)
-
-```bash
-cd src
-poetry install
 ```
 
 - Make Migrations

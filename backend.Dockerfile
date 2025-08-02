@@ -1,7 +1,5 @@
 FROM python:3.10-slim AS dev
 
-LABEL maintainer="Arvind .A"
-LABEL email="pingarvindforquestions@gmail.com"
 
 WORKDIR /app
 
