@@ -1,18 +1,20 @@
 :root {
 
-  --dartmouth-green: #016331;
-  --fire-engine-red: #CF0820;
-  --school-bus-yellow: #FCDE03;
-  --seasalt: #F7F7F7;
-  
-  --color-dartmouth-green-darker: color-mix(in srgb, var(--dartmouth-green) 30%, black);
-  --color-dartmouth-green-dark: color-mix(in srgb, var(--dartmouth-green) 35%, black);
-  --color-dartmouth-green-light: color-mix(in srgb, var(--dartmouth-green) 80%, white);
-  --color-fire-engine-red-dark: color-mix(in srgb, var(--fire-engine-red) 80%, black);
-  --color-fire-engine-red-light: color-mix(in srgb, var(--fire-engine-red) 80%, white);
-  --color-seasalt-light: color-mix(in srgb, var(--seasalt) 80%, white);
-  --color-seasalt-dark: color-mix(in srgb, var(--seasalt) 90%, black);
-  --color-seasalt-darker: color-mix(in srgb, var(--seasalt) 80%, black);
+  --color-dartmouth-green: #016331;
+  --color-fire-engine-red: #CF0820;
+  --color-school-bus-yellow: #FCDE03;
+  --color-seasalt: #F7F7F7;
+
+  --color-dartmouth-green-darker: color-mix(in srgb, var(--color-dartmouth-green) 30%, black);
+  --color-dartmouth-green-dark: color-mix(in srgb, var(--color-dartmouth-green) 40%, black);
+  --color-dartmouth-green-light: color-mix(in srgb, var(--color-dartmouth-green) 80%, white);
+  --color-fire-engine-red-dark: color-mix(in srgb, var(--color-fire-engine-red) 80%, black);
+  --color-fire-engine-red-light: color-mix(in srgb, var(--color-fire-engine-red) 80%, white);
+  --color-school-bus-yellow-dark: color-mix(in srgb, var(--color-school-bus-yellow) 80%, black);
+  --color-school-bus-yellow-light: color-mix(in srgb, var(--color-school-bus-yellow) 80%, white);
+  --color-seasalt-light: color-mix(in srgb, var(--color-seasalt) 80%, white);
+  --color-seasalt-dark: color-mix(in srgb, var(--color-seasalt) 90%, black);
+  --color-seasalt-darker: color-mix(in srgb, var(--color-seasalt) 80%, black);
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -73,7 +75,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: var(--color-dartmouth-green-darker);
-    background-color: var(--seasalt);
+    background-color: var(--color-seasalt);
   }
   a:hover {
     color: #747bff;

@@ -19,9 +19,9 @@ const IndexPage: React.FC = () => {
       </p>
 
       <div className="text-center">
-        <button className="px-6 py-3 font-semibold rounded-xl shadow-md transition">
-          Enter the Realm
-        </button>
+        <a href="/auth" className="px-6 py-3 font-semibold rounded-xl shadow-md transition">
+          Enter the realm
+        </a>
       </div>
     </section>
   );
