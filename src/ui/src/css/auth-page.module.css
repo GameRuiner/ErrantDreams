@@ -109,3 +109,69 @@
 .switchBtn:hover {
   color: var(--color-dartmouth-green);
 }
+
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: var(--color-dartmouth-green-darker);
+  }
+
+  .authCard {
+    background-color: var(--color-dartmouth-green-dark);
+    color: var(--color-seasalt);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  }
+
+  .toggleButtons {
+    border-color: var(--color-school-bus-yellow);
+  }
+
+  .toggleBtn {
+    background-color: var(--color-dartmouth-green);
+    color: var(--color-seasalt);
+  }
+
+  .toggleBtn.active {
+    background-color: var(--color-school-bus-yellow);
+    color: var(--color-dartmouth-green-dark);
+  }
+
+  .inputGroup label {
+    color: var(--color-seasalt);
+  }
+
+  .inputGroup input {
+    background-color: var(--color-dartmouth-green);
+    color: var(--color-seasalt);
+    border-color: var(--color-dartmouth-green-light);
+  }
+
+  .inputGroup input:focus {
+    border-color: var(--color-school-bus-yellow);
+  }
+
+  .inputGroup input::placeholder {
+    color: var(--color-seasalt-dark);
+  }
+
+  .submitBtn {
+    background-color: var(--color-school-bus-yellow);
+    color: var(--color-dartmouth-green-dark);
+  }
+
+  .submitBtn:hover {
+    background-color: var(--color-school-bus-yellow-light);
+  }
+
+  .switchText {
+    color: var(--color-seasalt);
+  }
+
+  .switchBtn {
+    color: var(--color-school-bus-yellow);
+  }
+
+  .switchBtn:hover {
+    color: var(--color-school-bus-yellow-light);
+  }
+}

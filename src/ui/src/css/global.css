@@ -9,8 +9,9 @@
   --color-dartmouth-green-dark: color-mix(in srgb, var(--color-dartmouth-green) 40%, black);
   --color-dartmouth-green-light: color-mix(in srgb, var(--color-dartmouth-green) 80%, white);
   --color-fire-engine-red-dark: color-mix(in srgb, var(--color-fire-engine-red) 80%, black);
-  --color-fire-engine-red-light: color-mix(in srgb, var(--color-fire-engine-red) 80%, white);
-  --color-school-bus-yellow-dark: color-mix(in srgb, var(--color-school-bus-yellow) 80%, black);
+  --color-fire-engine-red-light: color-mix(in srgb, var(--color-fire-engine-red) 70%, white);
+  --color-school-bus-yellow-dark: color-mix(in srgb, var(--color-school-bus-yellow) 90%, black);
+  --color-school-bus-yellow-darker: color-mix(in srgb, var(--color-school-bus-yellow) 80%, black);
   --color-school-bus-yellow-light: color-mix(in srgb, var(--color-school-bus-yellow) 80%, white);
   --color-seasalt-light: color-mix(in srgb, var(--color-seasalt) 80%, white);
   --color-seasalt-dark: color-mix(in srgb, var(--color-seasalt) 90%, black);
