@@ -1,3 +1,13 @@
+.section {
+  background-color: var(--color-dartmouth-green-dark);
+}
+
+@media (prefers-color-scheme: light) {
+  .section {
+    background-color: var(--color-seasalt-dark);
+  }
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

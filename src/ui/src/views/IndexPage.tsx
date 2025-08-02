@@ -3,7 +3,7 @@ import styles from "../css/index-page.module.css";
 
 const IndexPage: React.FC = () => {
   return (
-    <section className={`max-w-4xl mx-auto px-6 py-12 rounded-2xl shadow-lg`}>
+    <section className={`${styles.section} max-w-4xl mx-auto px-6 py-12 rounded-2xl shadow-lg`}>
       <h1 className={`text-4xl font-extrabold mb-4 text-center`}>
         Welcome to the Errant Dreams
       </h1>

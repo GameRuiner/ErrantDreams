@@ -1,11 +1,26 @@
 :root {
+
+  --dartmouth-green: #016331;
+  --fire-engine-red: #CF0820;
+  --school-bus-yellow: #FCDE03;
+  --seasalt: #F7F7F7;
+  
+  --color-dartmouth-green-darker: color-mix(in srgb, var(--dartmouth-green) 30%, black);
+  --color-dartmouth-green-dark: color-mix(in srgb, var(--dartmouth-green) 35%, black);
+  --color-dartmouth-green-light: color-mix(in srgb, var(--dartmouth-green) 80%, white);
+  --color-fire-engine-red-dark: color-mix(in srgb, var(--fire-engine-red) 80%, black);
+  --color-fire-engine-red-light: color-mix(in srgb, var(--fire-engine-red) 80%, white);
+  --color-seasalt-light: color-mix(in srgb, var(--seasalt) 80%, white);
+  --color-seasalt-dark: color-mix(in srgb, var(--seasalt) 90%, black);
+  --color-seasalt-darker: color-mix(in srgb, var(--seasalt) 80%, black);
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: var(--color-dartmouth-green-darker);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -57,13 +72,13 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--color-dartmouth-green-darker);
+    background-color: var(--seasalt);
   }
   a:hover {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--color-seasalt-darker);
   }
 }
