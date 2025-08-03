@@ -19,7 +19,7 @@ const IndexPage: React.FC = () => {
       </p>
 
       <div className="text-center">
-        <a href="/auth" className={` ${styles.link} font-semibold rounded-xl transition`}>
+        <a href="/auth" className={`${styles.link} font-semibold rounded-xl transition`}>
           Enter the realm
         </a>
       </div>

@@ -1,4 +1,6 @@
 import ReactDOM from "react-dom/client";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import "./css/index.css";
 import IndexPage from "./views/IndexPage.tsx";
@@ -21,8 +23,26 @@ const router = createBrowserRouter([
     path: "/about",
     element: <AboutPage />,
   },
+  {
+    path: "/game",
+    element: <AboutPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />,
+  <>
+    <RouterProvider router={router} />
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="dark"
+    />
+  </>
 );

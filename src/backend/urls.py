@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 
 from backend.env import config
 from api.views import HomeView, HelloAPIView, AboutView, DateAPIView
@@ -25,6 +25,7 @@ djangourlpatterns = [
     re_path(r"^api/hello/", HelloAPIView.as_view(), name="hello"),
     re_path(r"^api/date/", DateAPIView.as_view(), name="date"),
     re_path(r"^api/about/$", AboutView.as_view(), name="about"),
+    path('api/', include('api.urls')),
 ]
 
 

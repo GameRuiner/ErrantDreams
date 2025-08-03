@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import styles from "../css/auth-page.module.css";
+import { toast } from "react-toastify";
+import axios from "axios";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+const REGISTER_URL = `${BACKEND_URL}/api/register`;
+const LOGIN_URL = `${BACKEND_URL}/api/login`;
 
 const AuthPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -10,10 +16,70 @@ const AuthPage: React.FC = () => {
     confirmPassword: ''
   });
 
+  const login = async (formData: { email: string; password: string }) => {
+    const res = await axios.post(LOGIN_URL, formData);
+    const data = res.data;
+     if (data.success === true) {
+      toast.success(data.message);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      window.location.href = '/game';
+     } else {
+      toast.error(data.message);
+     }
+  }
+
+  const register = async (formData: { email: string; username: string; password: string, confirmPassword: string }) => {
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match !");
+      return;
+    }
+    console.log("Registering user with data:", formData);
+    const postData = {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+    };
+      try {
+        const res = await axios.post(REGISTER_URL, postData);
+        const data = res.data;
+        if (data.success === true) {
+          toast.success(data.message + " Please log in to continue.");
+          setFormData({
+            email: formData.email,
+            username: '',
+            password: '',
+            confirmPassword: ''
+          });
+          setIsLogin(true);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (err) {
+        console.log("Some error occured", err);
+      }
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Add authentication logic here
-    console.log('Form submitted:', formData);
+    const username = formData.username;
+    const email = formData.email;
+    const password = formData.password;
+    const confirmPassword = formData.confirmPassword;
+    console.log("Form data submitted:", { username, email, password, confirmPassword });
+    if (isLogin) {
+      login({
+        email,
+        password,
+      });
+    } else {
+      register({
+        email,
+        username,
+        password,
+        confirmPassword
+      });
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
