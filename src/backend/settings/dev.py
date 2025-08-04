@@ -22,11 +22,12 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "Your_Email"
-EMAIL_HOST_PASSWORD = "Your_Password"
+EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_USE_TLS = config("DJANGO_EMAIL_USE_TLS", cast=bool, default=True)
+EMAIL_PORT = config("DJANGO_EMAIL_PORT", cast=int)
+EMAIL_HOST_USER = config("DJANGO_EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("DJANGO_EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = config("DJANGO_DEFAULT_FROM_EMAIL")
 TIME_ZONE = 'Europe/Warsaw'
 
 # Static files (CSS, JavaScript, Images)

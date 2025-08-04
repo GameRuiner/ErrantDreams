@@ -171,6 +171,18 @@ const AuthPage: React.FC = () => {
           <button type="submit" className={styles.submitBtn}>
             {isLogin ? 'Enter the Realm' : 'Begin Your Journey'}
           </button>
+
+          {isLogin && (
+            <p className={styles.switchText}>
+              <button 
+                type="button"
+                className={styles.switchBtn}
+                onClick={() => window.location.href = '/forgot-password'}
+              >
+                Forgot password?
+              </button>
+            </p>
+          )}
         </form>
 
         <p className={styles.switchText}>
