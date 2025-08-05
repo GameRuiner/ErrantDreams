@@ -7,6 +7,7 @@ import IndexPage from "./views/IndexPage.tsx";
 import AboutPage from "./views/AboutPage.tsx";
 import AuthPage from "./views/AuthPage.tsx";
 import ForgotPasswordPage from "./views/ForgotPasswordPage.tsx";
+import ResetPasswordPage from "./views/ResetPasswordPage.tsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/forgot-password",
     element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/resetPassword",
+    element: <ResetPasswordPage />,
   },
   {
     path: "/game",
