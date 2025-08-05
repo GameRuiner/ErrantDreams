@@ -1,15 +1,14 @@
 import ReactDOM from "react-dom/client";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./css/index.css";
 import IndexPage from "./views/IndexPage.tsx";
 import AboutPage from "./views/AboutPage.tsx";
-import AuthPage from "./views/AuthPage.tsx";
-import ForgotPasswordPage from "./views/ForgotPasswordPage.tsx";
-import ResetPasswordPage from "./views/ResetPasswordPage.tsx";
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AuthPage from "./views/Auth/AuthPage.tsx";
+import ForgotPasswordPage from "./views/Auth/ForgotPasswordPage.tsx";
+import ResetPasswordPage from "./views/Auth/ResetPasswordPage.tsx";
+import FactionSelectionPage from "./views/FactionSelectionPage.tsx";
 
 
 const router = createBrowserRouter([
@@ -32,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/game",
     element: <AboutPage />,
+  },
+  {
+    path: "/faction-selection",
+    element: <FactionSelectionPage />,
   },
 ]);
 

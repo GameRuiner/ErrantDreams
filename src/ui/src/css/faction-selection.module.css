@@ -1,0 +1,206 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.selectionCard {
+  padding: 3rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 1200px;
+  color: var(--color-dartmouth-green-dark);
+}
+
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  color: var(--color-dartmouth-green-dark);
+  font-style: italic;
+}
+
+.factionsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.factionCard {
+  border: 3px solid var(--color-seasalt-dark);
+  border-radius: 1rem;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.factionCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-dartmouth-green-light);
+}
+
+.factionCard.selected {
+  border-color: var(--color-school-bus-yellow);
+  color: var(--color-dartmouth-green-dark);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(252, 222, 3, 0.3);
+}
+
+.factionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.factionName {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.factionSymbol {
+  font-size: 2.5rem;
+}
+
+.factionDescription {
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.factionDescription p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.factionCard.selected .factionDescription p {
+  color: var(--color-dartmouth-green-dark);
+}
+
+.factionTraits {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trait {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.traitLabel {
+  font-weight: 600;
+  color: var(--color-dartmouth-green);
+}
+
+.factionCard.selected .traitLabel {
+  color: var(--color-dartmouth-green-dark);
+}
+
+.traitValue {
+  font-style: italic;
+}
+
+.selectionFooter {
+  text-align: center;
+}
+
+.confirmButton {
+  background-color: var(--color-dartmouth-green-light);
+  color: var(--color-seasalt);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  min-width: 300px;
+}
+
+.confirmButton:hover:not(.disabled) {
+  background-color: var(--color-dartmouth-green);
+  transform: translateY(-2px);
+}
+
+.confirmButton.disabled {
+  background-color: var(--color-seasalt-dark);
+  color: var(--color-seasalt-darker);
+  cursor: not-allowed;
+}
+
+.warningText {
+  font-size: 0.9rem;
+  color: var(--color-fire-engine-red);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .selectionCard {
+    padding: 2rem;
+  }
+  
+  .factionsContainer {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+
+@media (prefers-color-scheme: dark) {
+  .selectionCard {
+    background-color: var(--color-dartmouth-green-dark);
+    color: var(--color-seasalt);
+  }
+
+  .subtitle {
+    color: var(--color-seasalt);
+  }
+
+  .factionCard {
+    background-color: var(--color-dartmouth-green);
+    color: var(--color-seasalt);
+    border-color: var(--color-dartmouth-green-light);
+  }
+
+  .factionCard.selected {
+    color: var(--color-seasalt);
+  }
+
+  .factionDescription p, .factionCard.selected .factionDescription p {
+    color: var(--color-seasalt-dark);
+  }
+
+  .traitLabel {
+    color: var(--color-school-bus-yellow);
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../css/auth-page.module.css";
+import styles from "../../css/auth-page.module.css";
 import { toast } from "react-toastify";
 import axios from "axios";
 
