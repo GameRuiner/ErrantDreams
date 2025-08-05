@@ -2,12 +2,77 @@ import React, { useState } from "react";
 import styles from "../css/faction-selection.module.css";
 import { toast } from "react-toastify";
 
+interface Race {
+  name: string;
+  description: string;
+  traits: string[];
+}
+
 const FactionSelectionPage: React.FC = () => {
   const [selectedFaction, setSelectedFaction] = useState<string | null>(null);
+  const [selectedRace, setSelectedRace] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [step, setStep] = useState<'faction' | 'race'>('faction');
+
+  const crusaderRaces: Race[] = [
+    {
+      name: 'Castilian',
+      description: 'Proud and resolute, the Castilians uphold chivalry and honor above all, excelling in heavy cavalry and fortified defenses.',
+      traits: ['[Trait 1]', '[Trait 2]']
+    },
+    {
+      name: 'Aragonese', 
+      description: 'Naval-savvy and adaptable, the Aragonese bring Mediterranean cunning and versatile tactics to the battlefield.',
+      traits: ['[Trait 1]', '[Trait 2]']
+    },
+    {
+      name: 'Leonese',
+      description: 'Devout and disciplined, the Leonese blend strong infantry lines with enduring morale in long campaigns.', 
+      traits: ['[Trait 1]', '[Trait 2]']
+    }
+  ];
+
+  const moorRaces: Race[] = [
+    {
+      name: 'Andalusian',
+      description: 'Learned and cosmopolitan, the Andalusians harness advanced science, culture, and architecture to empower their cities and armies.',
+      traits: ['[Trait 1]', '[Trait 2]']
+    },
+    {
+      name: 'Berber',
+      description: 'Swift and mobile, Berbers strike from the deserts with unmatched speed and mastery of guerrilla tactics.',
+      traits: ['[Trait 1]', '[Trait 2]']
+    },
+    {
+      name: 'Mashriqi',
+      description: 'Steeped in eastern traditions, the Mashriqi bring refined military doctrine, elite units, and distant wisdom to the Iberian front.',
+      traits: ['[Trait 1]', '[Trait 2]']
+    }
+  ];
+
+  const getCurrentRaces = (): Race[] => {
+    return selectedFaction === 'The Crusaders' ? crusaderRaces : moorRaces;
+  };
 
   const handleFactionSelect = (faction: string) => {
     setSelectedFaction(faction);
+  };
+
+  const handleRaceSelect = (race: string) => {
+    setSelectedRace(race);
+  };
+
+  const handleContinueToRace = () => {
+    if (!selectedFaction) {
+      toast.error("Please select a faction before continuing.");
+      return;
+    }
+    setStep('race');
+  };
+
+  const handleBackToFaction = () => {
+    setStep('faction');
+    setSelectedRace(null);
   };
 
   const handleConfirmSelection = async () => {
@@ -20,7 +85,7 @@ const FactionSelectionPage: React.FC = () => {
     
     try {
       // TODO: Send faction selection to backend
-      toast.success(`Welcome to ${selectedFaction}! Your journey begins...`);
+      toast.success(`Welcome, ${selectedRace} of ${selectedFaction}! Your journey begins...`);
       
       // TODO: Navigate to game/character creation
       setTimeout(() => {
@@ -28,16 +93,79 @@ const FactionSelectionPage: React.FC = () => {
       }, 2000);
       
     } catch (err) {
-      toast.error("Failed to save faction selection. Please try again.");
+      toast.error("Failed to save selections. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  if (step === 'race') {
+    return (
+      <div className={styles.container}>
+        <div className={styles.selectionCard}>
+          <h1 className={styles.title}>Choose your heritage</h1>
+          <p className={styles.subtitle}>
+            As a warrior of {selectedFaction}, select your ancestral lineage.
+            Each race brings unique strengths to the battlefield.
+          </p>
+
+          <div className={styles.racesContainer}>
+            {getCurrentRaces().map((race) => (
+              <div 
+                key={race.name}
+                className={`${styles.raceCard} ${selectedRace === race.name ? styles.selected : ''}`}
+                onClick={() => handleRaceSelect(race.name)}
+              >
+                <div className={styles.raceHeader}>
+                  <h3 className={styles.raceName}>{race.name}</h3>
+                </div>
+                
+                <div className={styles.raceDescription}>
+                  <p>{race.description}</p>
+                </div>
+
+                <div className={styles.raceTraits}>
+                  {race.traits.map((trait, index) => (
+                    <div key={index} className={styles.trait}>
+                      <span className={styles.traitValue}>{trait}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.selectionFooter}>
+            <div className={styles.buttonGroup}>
+              <button 
+                className={styles.backButton}
+                onClick={handleBackToFaction}
+              >
+                Back to factions
+              </button>
+              
+              <button 
+                className={`${styles.confirmButton} ${!selectedRace ? styles.disabled : ''}`}
+                onClick={handleConfirmSelection}
+                disabled={isLoading || !selectedRace}
+              >
+                {isLoading ? 'Creating Character...' : `Begin as ${selectedRace || 'Selected Race'}`}
+              </button>
+            </div>
+
+            <p className={styles.warningText}>
+              Your faction and race choices are permanent
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.selectionCard}>
-        <h1 className={styles.title}>Choose Your Allegiance</h1>
+        <h1 className={styles.title}>Choose your allegiance</h1>
         <p className={styles.subtitle}>
           In this world torn by holy war, your choice will shape your destiny. 
           Choose wisely, for there is no turning back.
@@ -80,10 +208,10 @@ const FactionSelectionPage: React.FC = () => {
         <div className={styles.selectionFooter}>
           <button 
             className={`${styles.confirmButton} ${!selectedFaction ? styles.disabled : ''}`}
-            onClick={handleConfirmSelection}
-            disabled={isLoading || !selectedFaction}
+            onClick={handleContinueToRace}
+            disabled={!selectedFaction}
           >
-            {isLoading ? 'Joining...' : `Pledge Allegiance to ${selectedFaction || 'Your Chosen Faction'}`}
+            Continue to heritage selection
           </button>
 
           <p className={styles.warningText}>

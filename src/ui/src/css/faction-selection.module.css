@@ -129,7 +129,6 @@
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-bottom: 1rem;
   min-width: 300px;
 }
 
@@ -149,6 +148,8 @@
   color: var(--color-fire-engine-red);
   font-weight: 600;
   margin: 0;
+  margin-top: 1rem;
+
 }
 
 /* Mobile responsive */
@@ -202,5 +203,137 @@
 
   .traitLabel {
     color: var(--color-school-bus-yellow);
+  }
+}
+
+/* Add to your faction-selection.module.css */
+
+.racesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.raceCard {
+  border: 2px solid var(--color-seasalt-dark);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.raceCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-dartmouth-green-light);
+}
+
+.raceCard.selected {
+  border-color: var(--color-school-bus-yellow);
+  color: var(--color-dartmouth-green-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(252, 222, 3, 0.3);
+}
+
+.raceHeader {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.raceName {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.raceCard.selected .raceName {
+  color: var(--color-dartmouth-green-dark);
+}
+
+.raceDescription {
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.raceDescription p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.raceCard.selected .raceDescription p {
+  color: var(--color-dartmouth-green-dark);
+}
+
+.raceTraits {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.backButton {
+  background-color: var(--color-seasalt-dark);
+  color: var(--color-dartmouth-green);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: var(--color-seasalt-darker);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .racesContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .buttonGroup {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .backButton,
+  .confirmButton {
+    width: 100%;
+  }
+}
+
+/* Dark theme for race cards */
+@media (prefers-color-scheme: dark) {
+  .raceCard {
+    background-color: var(--color-dartmouth-green);
+    color: var(--color-seasalt);
+    border-color: var(--color-dartmouth-green-light);
+  }
+
+  .raceCard.selected, .raceCard.selected .raceName, .raceCard.selected .raceDescription p {
+    color: var(--color-seasalt);
+  }
+
+  .raceDescription p {
+    color: var(--color-seasalt-dark);
+  }
+
+  .backButton {
+    background-color: var(--color-dartmouth-green-light);
+    color: var(--color-seasalt);
+  }
+
+  .backButton:hover {
+    background-color: var(--color-dartmouth-green);
   }
 }
