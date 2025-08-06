@@ -31,7 +31,7 @@ class DateAPIView(APIView):
     
 
 SALT = "8b4f6b2cc1868d75ef79e5cfb8779c11b6a374bf0fce05b485581bf4e1e25b96c8c2855015de8449"
-URL = "http://localhost:3000"
+URL = "http://localhost:5173"  # Update with errant-dreams.com
 
 
 def mail_template(content, button_url, button_text):
@@ -122,11 +122,10 @@ class ForgotPasswordView(APIView):
                     f"{URL}/resetPassword?id={user.id}&token={token}",
                     "Reset Password",
                 )
-                logger.error(f"Email host user: {settings.EMAIL_HOST_USER}")
                 send_mail(
                     subject=subject,
                     message=content,
-                    from_email=settings.EMAIL_HOST_USER,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
                     recipient_list=[email],
                     html_message=content,
                 )

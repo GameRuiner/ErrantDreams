@@ -14,15 +14,13 @@ ALLOWED_HOSTS = ["*"]
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
     "http://localhost:5173"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_HOST = "smtp.eu.mailgun.org"
 EMAIL_USE_TLS = config("DJANGO_EMAIL_USE_TLS", cast=bool, default=True)
 EMAIL_PORT = config("DJANGO_EMAIL_PORT", cast=int)
 EMAIL_HOST_USER = config("DJANGO_EMAIL_HOST_USER")
