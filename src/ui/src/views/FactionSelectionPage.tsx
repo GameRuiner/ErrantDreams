@@ -8,27 +8,33 @@ interface Race {
   traits: string[];
 }
 
+interface CharacterClass {
+  name: string;
+  description: string;
+}
+
 const FactionSelectionPage: React.FC = () => {
   const [selectedFaction, setSelectedFaction] = useState<string | null>(null);
   const [selectedRace, setSelectedRace] = useState<string | null>(null);
+  const [selectedClass, setSelectedClass] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState<'faction' | 'race'>('faction');
+  const [step, setStep] = useState<'faction' | 'race' | 'class'>('faction');
 
   const crusaderRaces: Race[] = [
     {
       name: 'Castilian',
       description: 'Proud and resolute, the Castilians uphold chivalry and honor above all, excelling in heavy cavalry and fortified defenses.',
-      traits: ['[Trait 1]', '[Trait 2]']
+      traits: ['Bonus damage when using swords or polearms', 'Bonus charisma', '+5% resistance to debuffs']
     },
     {
       name: 'Aragonese', 
       description: 'Naval-savvy and adaptable, the Aragonese bring Mediterranean cunning and versatile tactics to the battlefield.',
-      traits: ['[Trait 1]', '[Trait 2]']
+      traits: ['+10% bonus gold', 'Bonus intelligence', 'Bonus damage when using crossbows or knives']
     },
     {
       name: 'Leonese',
       description: 'Devout and disciplined, the Leonese blend strong infantry lines with enduring morale in long campaigns.', 
-      traits: ['[Trait 1]', '[Trait 2]']
+      traits: ['+10% bonus agility', '+5% crit chance when using light weapons (knives, throwing weapons, curved blades)', '+5% resistance to debuffs']
     }
   ];
 
@@ -36,22 +42,78 @@ const FactionSelectionPage: React.FC = () => {
     {
       name: 'Andalusian',
       description: 'Learned and cosmopolitan, the Andalusians harness advanced science, culture, and architecture to empower their cities and armies.',
-      traits: ['[Trait 1]', '[Trait 2]']
+      traits: ['+10% damage with curved blades and throwing weapons', 'Potions are 10% stronger', 'Bonus charisma']
     },
     {
       name: 'Berber',
       description: 'Swift and mobile, Berbers strike from the deserts with unmatched speed and mastery of guerrilla tactics.',
-      traits: ['[Trait 1]', '[Trait 2]']
+      traits: ['+5% evasion chance', 'Increased ranged accuracy', 'Bonus agility']
     },
     {
       name: 'Mashriqi',
       description: 'Steeped in eastern traditions, the Mashriqi bring refined military doctrine, elite units, and distant wisdom to the Iberian front.',
-      traits: ['[Trait 1]', '[Trait 2]']
+      traits: ['+10% damage with bows and curved blades', 'Faster ability cooldowns (10%)', 'Bonus intelligence']
     }
   ];
 
+  const characterClasses: CharacterClass[] = [
+    {
+      name: 'Knight',
+      description: 'The quintessential mounted warrior, embodying the ideals of chivalry and martial prowess.',
+    },
+    {
+      name: 'Arbalist',
+      description: 'An arbalist is a soldier who uses a crossbow, a powerful ranged physical weapon common in medieval warfare.',
+    },
+    {
+      name: 'Skirmisher',
+      description: 'A light and mobile ranged unit, adept at hit-and-run tactics. They utilize javelins or short bows for rapid attacks, harassing enemies from a distance before repositioning.',
+    },
+    {
+      name: 'Blade Dancer',
+      description: 'A highly agile and swift melee combatant, specializing in fluid movements and quick, precise strikes with curved blades',
+    },
+    {
+      name: 'Alchemist',
+      description: 'A master of ancient knowledge and elemental forces, capable of brewing potent concoctions for both offensive (acid, fire) and supportive (healing, buffs) effects',
+    },
+    {
+      name: 'Mystic Poet',
+      description: 'A bardic class that weaves magic into their verses, inspiring allies and bewildering foes with enchanting performances.',
+    }
+  ];
+
+  const raceClassCompatibility: Record<string, string[]> = {
+    'Castilian': ['Knight', 'Arbalist'],
+    'Aragonese': ['Knight', 'Arbalist', 'Skirmisher', 'Alchemist'],
+    'Leonese': ['Knight', 'Arbalist', 'Mystic Poet'],
+    'Andalusian': ['Skirmisher', 'Blade Dancer', 'Alchemist', 'Mystic Poet'],
+    'Berber': ['Arbalist', 'Skirmisher', 'Blade Dancer'],
+    'Mashriqi': ['Blade Dancer', 'Alchemist', 'Mystic Poet']
+  };
+
   const getCurrentRaces = (): Race[] => {
     return selectedFaction === 'The Crusaders' ? crusaderRaces : moorRaces;
+  };
+
+  const getAvailableClasses = (): CharacterClass[] => {
+    return characterClasses;
+  };
+
+  const isClassAvailable = (className: string): boolean => {
+    if (!selectedRace) return false;
+    const availableClassNames = raceClassCompatibility[selectedRace] || [];
+    return availableClassNames.includes(className);
+  };
+
+  const getClassAvailableRaces = (className: string): string[] => {
+    const availableRaces: string[] = [];
+    Object.entries(raceClassCompatibility).forEach(([race, classes]) => {
+      if (classes.includes(className)) {
+        availableRaces.push(race);
+      }
+    });
+    return availableRaces;
   };
 
   const handleFactionSelect = (faction: string) => {
@@ -62,6 +124,12 @@ const FactionSelectionPage: React.FC = () => {
     setSelectedRace(race);
   };
 
+  const handleClassSelect = (className: string) => {
+    if (isClassAvailable(className)) {
+      setSelectedClass(className);
+    }
+  };
+
   const handleContinueToRace = () => {
     if (!selectedFaction) {
       toast.error("Please select a faction before continuing.");
@@ -70,27 +138,36 @@ const FactionSelectionPage: React.FC = () => {
     setStep('race');
   };
 
+  const handleContinueToClass = () => {
+    if (!selectedRace) {
+      toast.error("Please select a race before continuing.");
+      return;
+    }
+    setStep('class');
+  };
+
   const handleBackToFaction = () => {
     setStep('faction');
     setSelectedRace(null);
+    setSelectedClass(null);
+  };
+
+  const handleBackToRace = () => {
+    setStep('race');
+    setSelectedClass(null);
   };
 
   const handleConfirmSelection = async () => {
-    if (!selectedFaction) {
-      toast.error("Please select a faction before continuing.");
+    if (!selectedFaction || !selectedRace || !selectedClass) {
+      toast.error("Please complete all selections before continuing.");
       return;
     }
 
     setIsLoading(true);
     
     try {
-      // TODO: Send faction selection to backend
-      toast.success(`Welcome, ${selectedRace} of ${selectedFaction}! Your journey begins...`);
-      
-      // TODO: Navigate to game/character creation
-      setTimeout(() => {
-        window.location.href = '/game';
-      }, 2000);
+      // TODO: Send faction, race, and class selection to backend
+      toast.success(`Welcome, ${selectedClass} ${selectedRace} of ${selectedFaction}! Your legend begins...`);
       
     } catch (err) {
       toast.error("Failed to save selections. Please try again.");
@@ -98,6 +175,80 @@ const FactionSelectionPage: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  // Class Selection Step
+  if (step === 'class') {
+    return (
+      <div className={styles.container}>
+        <div className={styles.selectionCard}>
+          <h1 className={styles.title}>Choose your path</h1>
+          <p className={styles.subtitle}>
+            As a {selectedRace} of {selectedFaction}, select your calling.
+            Each class offers unique abilities and combat styles.
+          </p>
+
+          <div className={styles.classesContainer}>
+            {getAvailableClasses().map((characterClass) => {
+              const isAvailable = isClassAvailable(characterClass.name);
+              const availableRaces = getClassAvailableRaces(characterClass.name);
+              
+              return (
+                <div 
+                  key={characterClass.name}
+                  className={`${styles.classCard} ${
+                    selectedClass === characterClass.name ? styles.selected : ''
+                  } ${!isAvailable ? styles.disabled : ''}`}
+                  onClick={() => handleClassSelect(characterClass.name)}
+                >
+                  <div className={styles.classHeader}>
+                    <h3 className={styles.className}>{characterClass.name}</h3>
+                    {!isAvailable && (
+                      <span className={styles.unavailableTag}>Unavailable</span>
+                    )}
+                  </div>
+                  
+                  <div className={styles.classDescription}>
+                    <p>{characterClass.description}</p>
+                  </div>
+
+                  {!isAvailable && (
+                    <div className={styles.availabilityInfo}>
+                      <p className={styles.availabilityText}>
+                        Available to: {availableRaces.join(', ')}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className={styles.selectionFooter}>
+            <div className={styles.buttonGroup}>
+              <button 
+                className={styles.backButton}
+                onClick={handleBackToRace}
+              >
+                Back to heritage
+              </button>
+              
+              <button 
+                className={`${styles.confirmButton} ${!selectedClass ? styles.disabled : ''}`}
+                onClick={handleConfirmSelection}
+                disabled={isLoading || !selectedClass}
+              >
+                {isLoading ? 'Creating Character...' : `Begin as ${selectedClass || 'Selected Class'}`}
+              </button>
+            </div>
+
+            <p className={styles.warningText}>
+              All choices are permanent and will shape your journey
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (step === 'race') {
     return (
@@ -146,10 +297,10 @@ const FactionSelectionPage: React.FC = () => {
               
               <button 
                 className={`${styles.confirmButton} ${!selectedRace ? styles.disabled : ''}`}
-                onClick={handleConfirmSelection}
-                disabled={isLoading || !selectedRace}
+                onClick={handleContinueToClass}
+                disabled={!selectedRace}
               >
-                {isLoading ? 'Creating Character...' : `Begin as ${selectedRace || 'Selected Race'}`}
+                Continue to class selection
               </button>
             </div>
 

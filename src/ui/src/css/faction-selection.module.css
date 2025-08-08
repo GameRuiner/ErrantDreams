@@ -183,6 +183,10 @@
     color: var(--color-seasalt);
   }
 
+  .selectionCard:hover {
+    border-color: var(--color-seasalt-darker);
+  }
+
   .subtitle {
     color: var(--color-seasalt);
   }
@@ -320,6 +324,11 @@
     border-color: var(--color-dartmouth-green-light);
   }
 
+  .raceCard:hover {
+    border-color: var(--color-seasalt-darker);
+  }
+
+
   .raceCard.selected, .raceCard.selected .raceName, .raceCard.selected .raceDescription p {
     color: var(--color-seasalt);
   }
@@ -335,5 +344,200 @@
 
   .backButton:hover {
     background-color: var(--color-dartmouth-green);
+  }
+}
+
+/* Add to faction-selection.module.css */
+
+.classesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.classCard {
+  border: 2px solid var(--color-seasalt-dark);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: white;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.classCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: var(--color-dartmouth-green-light);
+
+}
+
+.classCard.selected {
+  border-color: var(--color-school-bus-yellow);
+  color: var(--color-dartmouth-green-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(252, 222, 3, 0.3);
+}
+
+.classHeader {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.className {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+
+.classDescription {
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.classDescription p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.weaponTypes {
+  margin-bottom: 1rem;
+}
+
+.weaponTypes h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--color-dartmouth-green);
+}
+
+.classCard.selected .weaponTypes h4 {
+  color: var(--color-dartmouth-green-dark);
+}
+
+.weaponList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.weaponTag {
+  background-color: var(--color-dartmouth-green-light);
+  color: var(--color-seasalt);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.classCard.selected .weaponTag {
+  background-color: var(--color-dartmouth-green-dark);
+  color: var(--color-seasalt);
+}
+
+.classTraits {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Mobile responsive for class selection */
+@media (max-width: 768px) {
+  .classesContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dark theme for class cards */
+@media (prefers-color-scheme: dark) {
+  .classCard {
+    background-color: var(--color-dartmouth-green);
+    color: var(--color-seasalt);
+    border-color: var(--color-dartmouth-green-light);
+  }
+
+  .classCard:hover {
+    border-color: var(--color-seasalt-darker);
+  }
+
+  .classCard.selected {
+    color: var(--color-seasalt);
+  }
+
+  .classCard.selected, .raceCard.selected .className {
+    color: var(--color-seasalt-dark);
+  }
+
+  .classDescription p {
+    color: var(--color-seasalt-dark);
+  }
+
+  .weaponTypes h4 {
+    color: var(--color-school-bus-yellow);
+  }
+}
+
+.classCard.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--color-seasalt-light);
+}
+
+.classCard.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+
+.unavailableTag {
+  background-color: var(--color-fire-engine-red);
+  color: var(--color-seasalt);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.availabilityInfo {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-seasalt-dark);
+}
+
+.availabilityText {
+  font-size: 0.8rem;
+  color: var(--color-dartmouth-green-light);
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
+/* Dark theme for disabled classes */
+@media (prefers-color-scheme: dark) {
+  .classCard.disabled {
+    background-color: var(--color-dartmouth-green-darker);
+    border-color: var(--color-dartmouth-green-light);
+  }
+
+  .classCard.disabled .className {
+    color: var(--color-seasalt-darker);
+  }
+
+  .classCard.disabled .classDescription p {
+    color: var(--color-seasalt-darker);
+  }
+
+  .availabilityInfo {
+    border-top-color: var(--color-dartmouth-green-light);
+  }
+
+  .availabilityText {
+    color: var(--color-school-bus-yellow);
   }
 }
