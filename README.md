@@ -80,3 +80,16 @@ pnpm dev
 cd src/ui
 pnpm collectstatic
 ```
+
+#### Compose
+
+```bash
+# Production with PostgreSQL
+docker compose up -d
+
+# Development with SQLite  
+docker compose -f compose.dev.yaml up
+
+# Or just run locally without Docker
+cd src && python manage.py runserver
+```
