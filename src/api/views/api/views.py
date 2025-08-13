@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework import status
 
-from ...models import User, Token
-from ...serializers import UserSerializer, TokenSerializer
+from ...models import User, Token, Character
+from ...serializers import UserSerializer, TokenSerializer, CharacterSerializer
 
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password
@@ -229,3 +229,140 @@ class LoginView(APIView):
                     },
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 )
+
+def get_user_from_token(request):
+    """Helper function to get user from auth token"""
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or not auth_header.startswith('Bearer '):
+        return None
+    
+    token = auth_header.split(' ')[1]
+    try:
+        token_obj = Token.objects.get(
+            token=token, 
+            expires_at__gt=timezone.now(),
+            is_used=False
+        )
+        user = User.objects.get(id=token_obj.user_id)
+        return user
+    except (Token.DoesNotExist, User.DoesNotExist):
+        return None
+
+
+class CharacterCreationView(APIView):
+    def post(self, request, format=None):
+        try:
+            user = get_user_from_token(request)
+            if not user:
+                return Response(
+                    {"success": False, "message": "Invalid or expired authentication token."},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
+
+            existing_character = Character.objects.filter(user=user, is_active=True).first()
+            if existing_character:
+                return Response(
+                    {
+                        "success": False, 
+                        "message": "You already have an active character. Only one character per account is allowed.",
+                        "character": {
+                            "name": existing_character.name,
+                            "faction": existing_character.faction,
+                            "race": existing_character.race,
+                            "character_class": existing_character.character_class
+                        }
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            character_data = {
+                'user': user.id,
+                'name': request.data.get('name', f"{user.username}'s Hero"),
+                'faction': request.data.get('faction'),
+                'race': request.data.get('race'),
+                'character_class': request.data.get('character_class'),
+                'is_active': True
+            }
+
+            serializer = CharacterSerializer(data=character_data)
+            if serializer.is_valid():
+                character = serializer.save()
+                return Response(
+                    {
+                        "success": True,
+                        "message": f"Welcome, {character.name}! Your legend begins...",
+                        "character": {
+                            "id": character.id,
+                            "name": character.name,
+                            "faction": character.faction,
+                            "race": character.race,
+                            "character_class": character.character_class,
+                            "level": character.level,
+                            "experience": character.experience,
+                            "gold": character.gold
+                        }
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
+            else:
+                error_msg = ""
+                for key in serializer.errors:
+                    if isinstance(serializer.errors[key], list):
+                        error_msg += serializer.errors[key][0] + " "
+                    else:
+                        error_msg += str(serializer.errors[key]) + " "
+                
+                return Response(
+                    {"success": False, "message": error_msg.strip()},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        except Exception as e:
+            logger.error(f"Character creation error: {str(e)}")
+            return Response(
+                {"success": False, "message": "An error occurred while creating your character."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+class CharacterView(APIView):
+    def get(self, request, format=None):
+        """Get user's active character"""
+        try:
+            user = get_user_from_token(request)
+            if not user:
+                return Response(
+                    {"success": False, "message": "Invalid or expired authentication token."},
+                    status=status.HTTP_401_UNAUTHORIZED,
+                )
+
+            character = Character.objects.filter(user=user, is_active=True).first()
+            if not character:
+                return Response(
+                    {"success": False, "message": "No active character found."},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+            return Response(
+                {
+                    "success": True,
+                    "character": {
+                        "id": character.id,
+                        "name": character.name,
+                        "faction": character.faction,
+                        "race": character.race,
+                        "character_class": character.character_class,
+                        "level": character.level,
+                        "experience": character.experience,
+                        "gold": character.gold,
+                        "created_at": character.created_at
+                    }
+                },
+                status=status.HTTP_200_OK,
+            )
+
+        except Exception as e:
+            logger.error(f"Character retrieval error: {str(e)}")
+            return Response(
+                {"success": False, "message": "An error occurred while retrieving your character."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )

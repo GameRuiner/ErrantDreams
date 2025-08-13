@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./css/index.css";
 import IndexPage from "./views/IndexPage.tsx";
-import AboutPage from "./views/AboutPage.tsx";
+import StartPage from "./views/StartPage.tsx";
 import AuthPage from "./views/Auth/AuthPage.tsx";
 import ForgotPasswordPage from "./views/Auth/ForgotPasswordPage.tsx";
 import ResetPasswordPage from "./views/Auth/ResetPasswordPage.tsx";
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/game",
-    element: <AboutPage />,
+    element: <StartPage />,
   },
   {
     path: "/faction-selection",

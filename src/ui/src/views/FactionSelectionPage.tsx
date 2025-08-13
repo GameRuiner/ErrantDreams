@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../css/faction-selection.module.css";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 interface Race {
   name: string;
@@ -12,6 +13,9 @@ interface CharacterClass {
   name: string;
   description: string;
 }
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const CHARACTER_CREATE_URL = `${BACKEND_URL}/api/character/create`;
 
 const FactionSelectionPage: React.FC = () => {
   const [selectedFaction, setSelectedFaction] = useState<string | null>(null);
@@ -27,13 +31,13 @@ const FactionSelectionPage: React.FC = () => {
       traits: ['Bonus damage when using swords or polearms', 'Bonus charisma', '+5% resistance to debuffs']
     },
     {
-      name: 'Aragonese', 
+      name: 'Aragonese',
       description: 'Naval-savvy and adaptable, the Aragonese bring Mediterranean cunning and versatile tactics to the battlefield.',
       traits: ['+10% bonus gold', 'Bonus intelligence', 'Bonus damage when using crossbows or knives']
     },
     {
       name: 'Leonese',
-      description: 'Devout and disciplined, the Leonese blend strong infantry lines with enduring morale in long campaigns.', 
+      description: 'Devout and disciplined, the Leonese blend strong infantry lines with enduring morale in long campaigns.',
       traits: ['+10% bonus agility', '+5% crit chance when using light weapons (knives, throwing weapons, curved blades)', '+5% resistance to debuffs']
     }
   ];
@@ -164,13 +168,53 @@ const FactionSelectionPage: React.FC = () => {
     }
 
     setIsLoading(true);
-    
+
     try {
-      // TODO: Send faction, race, and class selection to backend
-      toast.success(`Welcome, ${selectedClass} ${selectedRace} of ${selectedFaction}! Your legend begins...`);
-      
-    } catch (err) {
-      toast.error("Failed to save selections. Please try again.");
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error("You must be logged in to create a character.");
+        return;
+      }
+      const res = await axios.post(CHARACTER_CREATE_URL, {
+        faction: selectedFaction,
+        race: selectedRace,
+        character_class: selectedClass,
+        name: `${selectedRace} ${selectedClass}`
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const data = res.data;
+
+      if (data.success === true) {
+        toast.success(data.message);
+
+        if (data.character) {
+          localStorage.setItem('character', JSON.stringify(data.character));
+        }
+
+        setTimeout(() => {
+          window.location.href = '/game';
+        }, 2000);
+
+      } else {
+        toast.error(data.message || "Failed to create character. Please try again.");
+      }
+
+    } catch (err: any) {
+      console.error("Character creation error:", err);
+
+      if (err.response?.status === 401) {
+        toast.error("Your session has expired. Please log in again.");
+        localStorage.removeItem('token');
+      } else if (err.response?.data?.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error("Failed to create character. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -191,13 +235,12 @@ const FactionSelectionPage: React.FC = () => {
             {getAvailableClasses().map((characterClass) => {
               const isAvailable = isClassAvailable(characterClass.name);
               const availableRaces = getClassAvailableRaces(characterClass.name);
-              
+
               return (
-                <div 
+                <div
                   key={characterClass.name}
-                  className={`${styles.classCard} ${
-                    selectedClass === characterClass.name ? styles.selected : ''
-                  } ${!isAvailable ? styles.disabled : ''}`}
+                  className={`${styles.classCard} ${selectedClass === characterClass.name ? styles.selected : ''
+                    } ${!isAvailable ? styles.disabled : ''}`}
                   onClick={() => handleClassSelect(characterClass.name)}
                 >
                   <div className={styles.classHeader}>
@@ -206,7 +249,7 @@ const FactionSelectionPage: React.FC = () => {
                       <span className={styles.unavailableTag}>Unavailable</span>
                     )}
                   </div>
-                  
+
                   <div className={styles.classDescription}>
                     <p>{characterClass.description}</p>
                   </div>
@@ -225,14 +268,14 @@ const FactionSelectionPage: React.FC = () => {
 
           <div className={styles.selectionFooter}>
             <div className={styles.buttonGroup}>
-              <button 
+              <button
                 className={styles.backButton}
                 onClick={handleBackToRace}
               >
                 Back to heritage
               </button>
-              
-              <button 
+
+              <button
                 className={`${styles.confirmButton} ${!selectedClass ? styles.disabled : ''}`}
                 onClick={handleConfirmSelection}
                 disabled={isLoading || !selectedClass}
@@ -262,7 +305,7 @@ const FactionSelectionPage: React.FC = () => {
 
           <div className={styles.racesContainer}>
             {getCurrentRaces().map((race) => (
-              <div 
+              <div
                 key={race.name}
                 className={`${styles.raceCard} ${selectedRace === race.name ? styles.selected : ''}`}
                 onClick={() => handleRaceSelect(race.name)}
@@ -270,7 +313,7 @@ const FactionSelectionPage: React.FC = () => {
                 <div className={styles.raceHeader}>
                   <h3 className={styles.raceName}>{race.name}</h3>
                 </div>
-                
+
                 <div className={styles.raceDescription}>
                   <p>{race.description}</p>
                 </div>
@@ -288,14 +331,14 @@ const FactionSelectionPage: React.FC = () => {
 
           <div className={styles.selectionFooter}>
             <div className={styles.buttonGroup}>
-              <button 
+              <button
                 className={styles.backButton}
                 onClick={handleBackToFaction}
               >
                 Back to factions
               </button>
-              
-              <button 
+
+              <button
                 className={`${styles.confirmButton} ${!selectedRace ? styles.disabled : ''}`}
                 onClick={handleContinueToClass}
                 disabled={!selectedRace}
@@ -318,12 +361,12 @@ const FactionSelectionPage: React.FC = () => {
       <div className={styles.selectionCard}>
         <h1 className={styles.title}>Choose your allegiance</h1>
         <p className={styles.subtitle}>
-          In this world torn by holy war, your choice will shape your destiny. 
+          In this world torn by holy war, your choice will shape your destiny.
           Choose wisely, for there is no turning back.
         </p>
 
         <div className={styles.factionsContainer}>
-          <div 
+          <div
             className={`${styles.factionCard} ${selectedFaction === 'The Crusaders' ? styles.selected : ''}`}
             onClick={() => handleFactionSelect('The Crusaders')}
           >
@@ -331,7 +374,7 @@ const FactionSelectionPage: React.FC = () => {
               <h2 className={styles.factionName}>The Crusaders</h2>
               <div className={styles.factionSymbol}>🛡️</div>
             </div>
-            
+
             <div className={styles.factionDescription}>
               <p>
                 Forged in the fires of holy wars, the Crusaders are armored knights, devout warriors, and disciplined tacticians. Backed by the power of Christian kingdoms like León, Castile, and Aragon, they march south under the banner of faith, seeking to reclaim the land and impose order through steel and scripture. Honor, hierarchy, and divine justice guide their every step.
@@ -339,7 +382,7 @@ const FactionSelectionPage: React.FC = () => {
             </div>
           </div>
 
-          <div 
+          <div
             className={`${styles.factionCard} ${selectedFaction === 'The Moors' ? styles.selected : ''}`}
             onClick={() => handleFactionSelect('The Moors')}
           >
@@ -347,7 +390,7 @@ const FactionSelectionPage: React.FC = () => {
               <h2 className={styles.factionName}>The Moors</h2>
               <div className={styles.factionSymbol}>🌙</div>
             </div>
-            
+
             <div className={styles.factionDescription}>
               <p>
                 Masters of science, strategy, and the scimitar, the Moors are heirs to centuries of knowledge and culture. Hailing from the once-flourishing Caliphate of Córdoba, they now fight to preserve their rich traditions, defend their cities, and resist the encroaching crusade. Swift, cunning, and resourceful, the Moors turn every battle into an art form.
@@ -357,7 +400,7 @@ const FactionSelectionPage: React.FC = () => {
         </div>
 
         <div className={styles.selectionFooter}>
-          <button 
+          <button
             className={`${styles.confirmButton} ${!selectedFaction ? styles.disabled : ''}`}
             onClick={handleContinueToRace}
             disabled={!selectedFaction}
