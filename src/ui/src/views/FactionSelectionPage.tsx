@@ -196,7 +196,7 @@ const FactionSelectionPage: React.FC = () => {
         }
 
         setTimeout(() => {
-          window.location.href = '/game';
+          window.location.href = '/start-page';
         }, 2000);
 
       } else {

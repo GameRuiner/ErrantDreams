@@ -218,7 +218,7 @@ const StartPage: React.FC = () => {
         <div className={styles.actionSection}>
           <a 
             className={styles.enterWorldButton}
-            href="/game-world"
+            href="/game"
           >
             <span className={styles.buttonIcon}>🌍</span>
             Enter the World

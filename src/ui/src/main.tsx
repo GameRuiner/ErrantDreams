@@ -9,6 +9,7 @@ import AuthPage from "./views/Auth/AuthPage.tsx";
 import ForgotPasswordPage from "./views/Auth/ForgotPasswordPage.tsx";
 import ResetPasswordPage from "./views/Auth/ResetPasswordPage.tsx";
 import FactionSelectionPage from "./views/FactionSelectionPage.tsx";
+import Game from "./views/Game.tsx";
 
 
 const router = createBrowserRouter([
@@ -29,12 +30,16 @@ const router = createBrowserRouter([
     element: <ResetPasswordPage />,
   },
   {
-    path: "/game",
+    path: "/start-page",
     element: <StartPage />,
   },
   {
     path: "/faction-selection",
     element: <FactionSelectionPage />,
+  },
+  {
+    path: "/game",
+    element: <Game />,
   },
 ]);
 

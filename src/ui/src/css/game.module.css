@@ -1,0 +1,321 @@
+.gameContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-dartmouth-green-darker);
+  color: var(--color-seasalt);
+}
+
+.loadingContainer {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-dartmouth-green-darker);
+  color: var(--color-seasalt);
+}
+
+.loadingSpinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--color-dartmouth-green);
+  border-top: 5px solid var(--color-school-bus-yellow);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.gameHeader {
+  background-color: var(--color-dartmouth-green);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--color-school-bus-yellow);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.characterInfo h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--color-school-bus-yellow);
+}
+
+.characterDetails {
+  font-size: 0.9rem;
+  color: var(--color-seasalt-dark);
+}
+
+.headerActions {
+  display: flex;
+  gap: 1rem;
+}
+
+.chatToggle, .menuButton {
+  background-color: var(--color-seasalt);
+  color: var(--color-dartmouth-green);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chatToggle:hover, .menuButton:hover {
+  background-color: var(--color-school-bus-yellow);
+  transform: translateY(-2px);
+}
+
+.gameContent {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.gameWorld {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.worldPlaceholder {
+  background-color: var(--color-dartmouth-green);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.worldPlaceholder h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-school-bus-yellow);
+}
+
+.comingSoon {
+  font-style: italic;
+  color: var(--color-seasalt-dark);
+  margin: 1rem 0;
+}
+
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+  max-width: 300px;
+}
+
+.actionBtn {
+  background-color: var(--color-dartmouth-green-light);
+  color: var(--color-seasalt);
+  border: none;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.actionBtn:hover {
+  background-color: var(--color-school-bus-yellow);
+  color: var(--color-dartmouth-green);
+  transform: translateY(-3px);
+}
+
+.chatPanel {
+  width: 100%;
+  background-color: var(--color-dartmouth-green);
+  border-left: 2px solid var(--color-school-bus-yellow);
+  display: flex;
+  flex-direction: column;
+}
+
+.chatHeader {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-dartmouth-green-light);
+}
+
+.channelTabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.channelTab {
+  background-color: var(--color-dartmouth-green-light);
+  color: var(--color-seasalt);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.channelTab:hover {
+  background-color: var(--color-seasalt-dark);
+  color: var(--color-dartmouth-green);
+}
+
+.channelTab.active {
+  background-color: var(--color-school-bus-yellow);
+  color: var(--color-dartmouth-green);
+}
+
+.chatMessages {
+  width: 100%;
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+.message {
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+  font-size: 0.9rem;
+}
+
+.systemMessage {
+  color: var(--color-school-bus-yellow);
+  font-style: italic;
+}
+
+.playerMessage {
+  color: var(--color-seasalt);
+}
+
+.ownMessage {
+  color: var(--color-seasalt);
+  font-weight: 600;
+}
+
+.timestamp {
+  color: var(--color-seasalt-darker);
+  font-size: 0.75rem;
+  margin-right: 0.5rem;
+}
+
+.channel {
+  font-size: 0.75rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  font-weight: 600;
+}
+
+.globalChannel {
+  background-color: var(--color-fire-engine-red);
+  color: var(--color-seasalt);
+}
+
+.factionChannel {
+  background-color: var(--color-school-bus-yellow);
+  color: var(--color-dartmouth-green);
+}
+
+.sender {
+  font-weight: 600;
+  color: var(--color-school-bus-yellow);
+  margin-right: 0.5rem;
+}
+
+.content {
+  color: inherit;
+}
+
+.chatInput {
+  padding: 1rem;
+  border-top: 1px solid var(--color-dartmouth-green-light);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chatInput input {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: var(--color-seasalt);
+  color: var(--color-dartmouth-green);
+  font-size: 0.9rem;
+}
+
+.chatInput input:focus {
+  outline: 2px solid var(--color-school-bus-yellow);
+}
+
+.chatInput button {
+  background-color: var(--color-school-bus-yellow);
+  color: var(--color-dartmouth-green);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.chatInput button:hover:not(:disabled) {
+  background-color: var(--color-fire-engine-red);
+  color: var(--color-seasalt);
+}
+
+.chatInput button:disabled {
+  background-color: var(--color-seasalt-dark);
+  color: var(--color-seasalt-darker);
+  cursor: not-allowed;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .gameHeader {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .headerActions {
+    justify-content: center;
+  }
+
+  .gameContent {
+    flex-direction: column;
+  }
+
+  .chatPanel {
+    width: 100%;
+    height: 300px;
+    border-left: none;
+    border-top: 2px solid var(--color-school-bus-yellow);
+  }
+
+  .gameWorld {
+    padding: 1rem;
+  }
+
+  .quickActions {
+    grid-template-columns: 1fr;
+    max-width: 200px;
+  }
+}
+
+/* Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+  .chatInput input {
+    background-color: var(--color-dartmouth-green-dark);
+    color: var(--color-seasalt);
+  }
+}
