@@ -277,7 +277,7 @@ class CharacterCreationView(APIView):
 
             character_data = {
                 'user': user.id,
-                'name': request.data.get('name', f"{user.username}'s Hero"),
+                'name': user.username,
                 'faction': request.data.get('faction'),
                 'race': request.data.get('race'),
                 'character_class': request.data.get('character_class'),
@@ -347,7 +347,7 @@ class CharacterView(APIView):
                     "success": True,
                     "character": {
                         "id": character.id,
-                        "name": character.name,
+                        "name": user.username,
                         "faction": character.faction,
                         "race": character.race,
                         "character_class": character.character_class,

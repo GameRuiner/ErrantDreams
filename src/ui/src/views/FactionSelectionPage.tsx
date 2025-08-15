@@ -179,7 +179,6 @@ const FactionSelectionPage: React.FC = () => {
         faction: selectedFaction,
         race: selectedRace,
         character_class: selectedClass,
-        name: `${selectedRace} ${selectedClass}`
       }, {
         headers: {
           'Authorization': `Bearer ${token}`,

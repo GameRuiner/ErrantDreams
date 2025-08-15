@@ -51,7 +51,7 @@ class Character(models.Model):
     character_class = models.CharField(max_length=50, choices=CLASS_CHOICES)
     level = models.IntegerField(default=1)
     experience = models.IntegerField(default=0)
-    gold = models.IntegerField(default=100)
+    gold = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)

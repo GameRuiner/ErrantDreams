@@ -167,6 +167,7 @@ const StartPage: React.FC = () => {
       </div>
     );
   }
+  console.log("Character data:", character);
 
   return (
     <div className={styles.container}>
@@ -183,20 +184,19 @@ const StartPage: React.FC = () => {
             <div className={styles.characterIcon}>
               {getClassIcon(character.character_class)}
             </div>
-            <div className={styles.characterInfo}>
-              <h2 className={styles.characterName}>{character.name}</h2>
-              <p className={styles.characterTitle}>
-                Level {character.level} {character.race} {character.character_class}
-              </p>
-            </div>
-            <div className={styles.factionBadge}>
-              <span className={styles.factionIcon}>
-                {getFactionIcon(character.faction)}
+            <h2 className={styles.characterName}>{character.name}</h2>
+            <div className={styles.characterDetails}>
+              <span className={styles.characterClass}>
+                {character.race} {character.character_class}
               </span>
-              <span className={styles.factionName}>{character.faction}</span>
+              <div className={styles.factionBadge}>
+                <span className={styles.factionIcon}>
+                  {getFactionIcon(character.faction)}
+                </span>
+                <span className={styles.factionName}>{character.faction}</span>
+              </div>
             </div>
           </div>
-
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
               <div className={styles.statIcon}>⭐</div>
@@ -205,15 +205,6 @@ const StartPage: React.FC = () => {
                 <span className={styles.statValue}>{character.level}</span>
               </div>
             </div>
-
-            <div className={styles.statCard}>
-              <div className={styles.statIcon}>✨</div>
-              <div className={styles.statInfo}>
-                <span className={styles.statLabel}>Experience</span>
-                <span className={styles.statValue}>{character.experience.toLocaleString()}</span>
-              </div>
-            </div>
-
             <div className={styles.statCard}>
               <div className={styles.statIcon}>💰</div>
               <div className={styles.statInfo}>
@@ -221,50 +212,21 @@ const StartPage: React.FC = () => {
                 <span className={styles.statValue}>{character.gold.toLocaleString()}</span>
               </div>
             </div>
-
-            <div className={styles.statCard}>
-              <div className={styles.statIcon}>📅</div>
-              <div className={styles.statInfo}>
-                <span className={styles.statLabel}>Created</span>
-                <span className={styles.statValue}>
-                  {new Date(character.created_at).toLocaleDateString()}
-                </span>
-              </div>
-            </div>
           </div>
         </div>
 
-        <div className={styles.actionsSection}>
-          <h3>Choose your path</h3>
-          <div className={styles.actionGrid}>
-            <button className={styles.actionButton}>
-              <span className={styles.actionIcon}>⚔️</span>
-              <span className={styles.actionLabel}>Battle</span>
-              <span className={styles.actionDesc}>Engage in combat</span>
-            </button>
-
-            <button className={styles.actionButton}>
-              <span className={styles.actionIcon}>🏰</span>
-              <span className={styles.actionLabel}>Town</span>
-              <span className={styles.actionDesc}>Visit the marketplace</span>
-            </button>
-
-            <button className={styles.actionButton}>
-              <span className={styles.actionIcon}>🗺️</span>
-              <span className={styles.actionLabel}>Explore</span>
-              <span className={styles.actionDesc}>Discover new lands</span>
-            </button>
-
-            <button className={styles.actionButton}>
-              <span className={styles.actionIcon}>🎒</span>
-              <span className={styles.actionLabel}>Inventory</span>
-              <span className={styles.actionDesc}>Manage your items</span>
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.footer}>
-          <p>Welcome back, brave {character.race}! Your legend continues...</p>
+        <div className={styles.actionSection}>
+          <a 
+            className={styles.enterWorldButton}
+            href="/game-world"
+          >
+            <span className={styles.buttonIcon}>🌍</span>
+            Enter the World
+          </a>
+          
+          <p className={styles.welcomeText}>
+            Your legend awaits, brave {character.race}!
+          </p>
         </div>
       </div>
     </div>
